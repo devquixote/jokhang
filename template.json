@@ -1,0 +1,14 @@
+{% set description = "Hello Bucket" %}
+
+{
+    {% include "common/cfn/header.json" %}
+
+    "Resources": {
+        "MyBucket": {
+            "Type" : "AWS::S3::Bucket",
+            "Properties": {
+                "BucketName": "{{ bucket_name }}"
+            }
+        }
+    }
+}

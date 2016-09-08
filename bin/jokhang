@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+import imp
+import optparse
+import os
+from jinja2 import Environment, FileSystemLoader
+
+parser = optparse.OptionParser()
+
+parser.add_option("-c",
+                  "--context",
+                  action="store",
+                  default="context.py",
+                  help="Evaluation context for the template")
+parser.add_option("-t",
+                  "--template",
+                  action="store",
+                  help="Path to template file")
+
+options, _ = parser.parse_args()
+
+if not options.template:
+    parser.error("template must be specified!")
+
+context = imp.load_source("context", options.context)
+
+jinja = Environment(loader=FileSystemLoader('.'))
+template = jinja.get_template(options.template)
+print template.render(**context.__dict__)
